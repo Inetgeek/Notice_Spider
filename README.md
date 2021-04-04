@@ -20,3 +20,5 @@ shell脚本
 ```
 ### 作者
 作者：InetGeek 版权归作者所有
+CSDN博客：[InetGeek](https://blog.csdn.net/qq_34532102)
+个人博客：[Digran's Blog](https://www.digran.cn)
