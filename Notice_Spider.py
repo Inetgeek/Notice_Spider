@@ -6,7 +6,7 @@ import urllib.request
 import requests
 import json
 from bs4 import BeautifulSoup
-
+#模拟浏览器对网站发出请求并解析获得级网文章发表标题等信息
 def getTitle (url):
     headers = ('User-Agent',"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36")
     opener = urllib.request.build_opener()
@@ -16,7 +16,7 @@ def getTitle (url):
     bs = BeautifulSoup(html,'html.parser')
     Title_links = bs.select('.Article_Title > a')
     return Title_links
-
+#模拟浏览器对网站发出请求并解析获得级网文章发表时间等信息
 def getDate (url):
     headers = ('User-Agent',"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36")
     opener = urllib.request.build_opener()
@@ -26,13 +26,13 @@ def getDate (url):
     bs = BeautifulSoup(html,'html.parser')
     Date_links = bs.select('.Article_PublishDate')
     return Date_links
-
+#获取当前日期(-3表示今日往前推3天)
 def getNowDate():
     now_time = datetime.datetime.now()
     yes_time = now_time+datetime.timedelta(days=-3)
     current_time = yes_time.strftime('%Y-%m-%d')
     return current_time
-
+#获取文章标题、时间、链接等
 url = 'http://xxx.xxx.com'
 linklist_Title = getTitle(url)
 linklist_Date = getDate(url)
@@ -47,7 +47,7 @@ for link in linklist_Title:
 
 for date in linklist_Date:
     dates.append(date.text.strip())
-
+#获取指定日期的文章信息
 for date,text, link, in zip(dates, contents, links):
     data = date+' '+text+':http://xxx.xxx.com'+link
     if date == Now_Date:
@@ -55,14 +55,14 @@ for date,text, link, in zip(dates, contents, links):
 
 print('\n')
 print(send_data)
-
+#群发邮件，邮件系统为qq的，端口为465的ssl加密传输
 import smtplib
 from email import (header)
 from email.mime import (text, multipart)
 import time
 
 def sender_mail():
-    smtp_Obj = smtplib.SMTP_SSL('smtp.qq.com',465) # 连接qq邮箱SMTP服务器，端口是25
+    smtp_Obj = smtplib.SMTP_SSL('smtp.qq.com',465) # 连接qq邮箱SMTP服务器，端口是465
     sender_addrs = 'xxx@foxmail.com'       # 发件人邮箱账号
     password = "uaxxxxxxxxxxxge"           # 发件人邮箱密码  即配置生成的授权码
     smtp_Obj.login(sender_addrs, password)
@@ -80,8 +80,8 @@ def sender_mail():
             continue
     smtp_Obj.quit() #退出
 
-sender_mail()
-
+#sender_mail()
+#用json格式向push+推送文章
 token = '4bxxxxxxxxxxxxxxxxxxxxxxx5'
 title= '今日级网更新通知'
 content = send_data 
@@ -93,9 +93,10 @@ data = {
 }
 body=json.dumps(data).encode(encoding='UTF-8')
 headers = {'Content-Type':'application/json'}
+#判断是否有更新内容，有则发送
 if len(send_data) > 0:
     res = requests.post(url,data=body,headers=headers)
-    #sender_mail()
+    sender_mail()
     print(res.status_code)
     print(res.text)
     #print(send_data)
