@@ -62,12 +62,11 @@ from email.mime import (text, multipart)
 import time
 
 def sender_mail():
-    smtp_Obj = smtplib.SMTP()  # 第三方 SMTP 服务
-    smtp_Obj.connect(host='smtp.qq.com', port=25) # 连接qq邮箱SMTP服务器，端口是25
+    smtp_Obj = smtplib.SMTP_SSL('smtp.qq.com',465) # 连接qq邮箱SMTP服务器，端口是25
     sender_addrs = 'xxx@foxmail.com'       # 发件人邮箱账号
     password = "uaxxxxxxxxxxxge"           # 发件人邮箱密码  即配置生成的授权码
     smtp_Obj.login(sender_addrs, password)
-    receiver_addrs = ['yyy@foxmail.com']  #群发的收件人
+    receiver_addrs = ['yyy@foxmail.com','zzz@foxmail.com']  #群发的收件人
     for email_addrs in receiver_addrs:
         try:
             msg = multipart.MIMEMultipart()
