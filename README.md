@@ -13,6 +13,10 @@ pip install requests
 ```
 ### 推送方式
 push+ / QQ邮箱
-
+### 云服务器定时执行程序
+shell脚本
+```
+/usr/bin/python /www/server/panel/class/sendmail.py
+```
 ### 作者
-作者：InetGeek
+作者：InetGeek 版权归作者所有
